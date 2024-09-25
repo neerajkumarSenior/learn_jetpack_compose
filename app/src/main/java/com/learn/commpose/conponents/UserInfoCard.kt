@@ -5,6 +5,8 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,9 +22,10 @@ fun UserInfoCard(user: Post) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
-            .border(1.dp, Color.Gray, RoundedCornerShape(8.dp)),
+            .padding(vertical = 2.dp)
+            .border(1.dp, Color.White, RoundedCornerShape(8.dp)),
         shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.elevatedCardColors()
 
     ) {
         Column(
@@ -34,16 +37,16 @@ fun UserInfoCard(user: Post) {
         ) {
             Text(
                 text = "Name: ${user.name}",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Black
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Normal,
+                color = Color.Red
             )
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
                 text = "Email: ${user.phone}",
-                fontSize = 16.sp,
-                color = Color.Gray
+                fontSize = 11.sp,
+                color = Color.Black
             )
         }
     }
