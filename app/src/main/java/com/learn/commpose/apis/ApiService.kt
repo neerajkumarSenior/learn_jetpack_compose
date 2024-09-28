@@ -6,6 +6,6 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface ApiService {
-    @POST("view-direct")
+    @POST("customer/view-direct")
     suspend fun getUsers(@Body userRequest: UserRequest): ApiResponse
 }
