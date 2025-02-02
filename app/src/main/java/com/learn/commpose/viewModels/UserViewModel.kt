@@ -6,57 +6,76 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.learn.commpose.model.Post
-import com.learn.commpose.model.UserRequest
 import com.learn.commpose.network.ApiResult
-import com.learn.commpose.retrofit.RetrofitInstance
+import com.learn.commpose.repository.UserRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class UserViewModel: ViewModel() {
 
 
-    // Sealed class state
-    var userResult by mutableStateOf<ApiResult<List<Post>>>(ApiResult.Loading)
-        private set
+
+
+@HiltViewModel
+class UserViewModel @Inject constructor(
+    private val userRepository: UserRepository
+) : ViewModel() {
+
+    // Expose StateFlow instead of MutableState
+    private val _userResult = MutableStateFlow<ApiResult<List<Post>>>(ApiResult.Loading)
+    val userResult: StateFlow<ApiResult<List<Post>>> = _userResult
 
     init {
-
-        var user_id = "PHC123456"
-        fetchUsers(user_id)
+        val userId = "PHC123456"
+        fetchUsers(userId)
     }
 
-    private fun fetchUsers(user_id: String) {
-
+    private fun fetchUsers(userId: String) {
         viewModelScope.launch {
-
-
-            userResult = ApiResult.Loading
-
-            try {
-
-                val userRequest = UserRequest(user_id)
-
-
-                val response = RetrofitInstance.api.getUsers(userRequest)
-
-
-                if (response.success) {
-                    userResult = ApiResult.Success(response.data?: emptyList())
-                } else {
-                    userResult = ApiResult.Error(response.message)
-                }
-
-
-            } catch (e: Exception) {
-                userResult = ApiResult.Error(e.message ?: "Unknown error")
-
+            userRepository.getUsers(userId).collect { result ->
+                _userResult.value = result
             }
-
         }
-
-
-
-
     }
-
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//@HiltViewModel
+//class UserViewModel @Inject constructor(
+//    private val userRepository: UserRepository
+//) : ViewModel() {
+//
+//    var userResult by mutableStateOf<ApiResult<List<Post>>>(ApiResult.Loading)
+//        private set
+//
+//    init {
+//        val userId = "PHC123456"
+//        fetchUsers(userId)
+//    }
+//
+//    private fun fetchUsers(userId: String) {
+//        viewModelScope.launch {
+//            userResult = ApiResult.Loading
+//
+//            val result = userRepository.getUsers(userId)
+//
+//            userResult = result
+//        }
+//    }
+//}

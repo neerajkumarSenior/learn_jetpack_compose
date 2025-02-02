@@ -1,4 +1,4 @@
-package com.learn.commpose.retrofit
+package com.learn.commpose.apis
 
 import com.learn.commpose.model.UserRequest
 import com.learn.commpose.network.ApiResponse

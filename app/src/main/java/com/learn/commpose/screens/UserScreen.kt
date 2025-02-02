@@ -9,46 +9,55 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.learn.commpose.conponents.UserInfoCard
+import com.learn.commpose.model.Post
 import com.learn.commpose.network.ApiResult
 import com.learn.commpose.viewModels.UserViewModel
 
 @Composable
-fun UserScreen(viewModel: UserViewModel = viewModel()) {
-    val userResult = viewModel.userResult
+fun UserScreen(navController: NavController, modifier: Modifier=Modifier) {
+
+    val viewModel: UserViewModel = hiltViewModel()
+    val userResult by viewModel.userResult.collectAsState()
+
 
     Column(
-        modifier = Modifier
+        modifier = modifier.padding(horizontal = 13.dp
+        )
             .fillMaxSize()
-            .padding(16.dp)
+
     ) {
         Text(text = "User List", style = MaterialTheme.typography.titleSmall)
         Spacer(modifier = Modifier.height(16.dp))
+
+       // LoginScreen()
 
         when (userResult) {
             is ApiResult.Loading -> {
                 CircularProgressIndicator()
             }
             is ApiResult.Success -> {
-                val users = userResult.data
+                val users = (userResult as ApiResult.Success<List<Post>>).data
 
 
                 if (users.isNotEmpty()) {
                     users.forEach { user ->
-//                        Text(text = "Name: ${user.name}")
-//                        Text(text = "Email: ${user.phone}")
-//                        Spacer(modifier = Modifier.height(8.dp))
+
                         UserInfoCard(user)
+
                     }
                 } else {
                     Text(text = "No Users Available")
                 }
             }
             is ApiResult.Error -> {
-                Text(text = "Error: ${userResult.message}")
+                Text(text = "Error: ${(userResult as ApiResult.Error).message}")
             }
         }
     }

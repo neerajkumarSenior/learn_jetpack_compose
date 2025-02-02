@@ -4,6 +4,9 @@ plugins {
     alias(libs.plugins.dagger.hilt.plugin)
     alias(libs.plugins.kotlin.kapt)
 
+    alias(libs.plugins.kotlinx.serialization)
+    id("kotlin-parcelize")
+
 }
 
 android {
@@ -58,6 +61,8 @@ dependencies {
 
     implementation (libs.retrofit)
     implementation (libs.gsonConverter)
+    implementation (libs.okhttp.logging)
+
 
     implementation (libs.viewModelCompose)
 
@@ -68,6 +73,15 @@ dependencies {
     // Dagger and hilt
     implementation(libs.dagger.hilt)
     kapt(libs.dagger.hilt.compiler)
+
+    implementation(libs.hilt.navigation.compose)
+
+    // compose navigation
+
+    implementation(libs.androidx.navigation.compose)
+
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.coil.compose)
 
 
     implementation(libs.androidx.core.ktx)

@@ -1,5 +1,6 @@
 package com.learn.commpose
 
+import InstagramStoryEditor
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.Toast
@@ -31,193 +32,210 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.learn.commpose.api_utils.TokenManager
+import com.learn.commpose.imageEditor.app.Navigation
+import com.learn.commpose.navigation.MainNavigation
 import com.learn.commpose.screens.UserScreen
 import com.learn.commpose.ui.theme.LearnComposeTheme
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.exp
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    @SuppressLint("InvalidColorHexValue")
+
+
+        @SuppressLint("InvalidColorHexValue")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         enableEdgeToEdge()
+
         setContent {
+         LearnComposeTheme {
+            Navigation()
 
-            UserScreen()
+        }
+//            InstagramStoryEditor()
 
-//            LearnComposeTheme {
-//                Scaffold(modifier = Modifier
-//                    .fillMaxSize()
-//                    .padding(top = 24.dp),
-////                    topBar = {
-////
+//           LearnComposeTheme {
+//                val tokenManager = TokenManager(this)
+//                MainNavigation(tokenManager)
+//
+////            LearnComposeTheme {
+////                Scaffold(modifier = Modifier
+////                    .fillMaxSize()
+////                    .padding(top = 24.dp),
+//////                    topBar = {
+//////
+//////
+//////                        Row(
+//////                            modifier = Modifier
+//////                                .height(65.dp)
+//////                                .fillMaxWidth()
+//////
+//////                                .background(color = Color.Yellow),
+//////                            verticalAlignment = Alignment.CenterVertically,
+//////                            horizontalArrangement = Arrangement.SpaceEvenly
+//////                        ) {
+//////
+//////
+//////                          ToolBarIcon(icon = R.drawable.baseline_home_24)
+//////                          ToolBarIcon(icon = R.drawable.baseline_view_in_ar_24)
+//////                          ToolBarIcon(icon = R.drawable.baseline_notifications_24)
+//////                          ToolBarIcon(icon = R.drawable.baseline_settings_24)
+//////
+//////
+//////                        }
+//////                    },
+////                     bottomBar = {
 ////
 ////                        Row(
 ////                            modifier = Modifier
-////                                .height(65.dp)
+////                                .height(67.dp)
 ////                                .fillMaxWidth()
-////
+//////
 ////                                .background(color = Color.Yellow),
 ////                            verticalAlignment = Alignment.CenterVertically,
 ////                            horizontalArrangement = Arrangement.SpaceEvenly
 ////                        ) {
 ////
 ////
-////                          ToolBarIcon(icon = R.drawable.baseline_home_24)
-////                          ToolBarIcon(icon = R.drawable.baseline_view_in_ar_24)
-////                          ToolBarIcon(icon = R.drawable.baseline_notifications_24)
-////                          ToolBarIcon(icon = R.drawable.baseline_settings_24)
+////                            ToolBarIcon(icon = R.drawable.baseline_home_24)
+////                            ToolBarIcon(icon = R.drawable.baseline_view_in_ar_24)
+////                            ToolBarIcon(icon = R.drawable.baseline_notifications_24)
+////                            ToolBarIcon(icon = R.drawable.baseline_settings_24)
 ////
 ////
 ////                        }
-////                    },
-//                     bottomBar = {
-//
-//                        Row(
-//                            modifier = Modifier
-//                                .height(67.dp)
-//                                .fillMaxWidth()
 ////
-//                                .background(color = Color.Yellow),
-//                            verticalAlignment = Alignment.CenterVertically,
-//                            horizontalArrangement = Arrangement.SpaceEvenly
-//                        ) {
-//
-//
-//                            ToolBarIcon(icon = R.drawable.baseline_home_24)
-//                            ToolBarIcon(icon = R.drawable.baseline_view_in_ar_24)
-//                            ToolBarIcon(icon = R.drawable.baseline_notifications_24)
-//                            ToolBarIcon(icon = R.drawable.baseline_settings_24)
-//
-//
-//                        }
-//
-//                    }
-//
-//
-//                ) { innerPadding ->
-//
-//                    Box(
-//                        modifier = Modifier
-//
-//                            .fillMaxWidth()
-//                            .size(250.dp)
-//
-//                            .background(
-//                                brush = Brush.linearGradient(
-//                                    listOf(Color.Red, Color.Black),
-//                                    start = Offset(0f, 0f),
-//                                    end = Offset(500f, 500f)
-//                                ),
-//                                shape = RoundedCornerShape(bottomStart = 30.dp, bottomEnd = 30.dp)
-//                            ),
-//
-//
-//                        contentAlignment = Alignment.Center
-//                    ) {
-//
-//                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-//
-//                            Row(
-//                                modifier = Modifier
-//                                    .padding(horizontal = 25.dp)
-//                                    .fillMaxWidth(),
-//                                horizontalArrangement = Arrangement.SpaceBetween
-//                            ) {
-//                                Home("A", Color.White)
-//                                Home("B", Color.White)
-//                                Home("A", Color.White)
-//                                Home("B", Color.White)
-//
-//
-//                            }
-//
-//
-//                            Home(text = "Z", Color.White)
-//                            Home(text = "Z", Color.White)
-//                            Home(text = "Z", Color.White)
-//                            Home(text = "Z", Color.White)
-//
-//
-//                        }
-//
-//
-//                    }
-//
-//
-//                    Box(
-//                        modifier = Modifier // Alignment ko adjust kar ke position set karen
-//
-//                            .fillMaxWidth(),
-//
-//
-//                    ) {
-//                        // Pehla Box
-//                        Box(
-//                            modifier = Modifier
-//                                .fillMaxWidth()
-//                                .size(250.dp)
-//                                .background(
-//                                    brush = Brush.linearGradient(
-//                                        listOf(Color.Red, Color.Black),
-//                                        start = Offset(0f, 0f),
-//                                        end = Offset(500f, 500f)
-//                                    ),
-//                                    shape = RoundedCornerShape(
-//                                        bottomStart = 20.dp,
-//                                        bottomEnd = 20.dp
-//                                    )
-//                                ),
-//                            contentAlignment = Alignment.Center
-//                        ) {
-//                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-//                                Row(
-//                                    modifier = Modifier
-//                                        .padding(horizontal = 25.dp)
-//                                        .fillMaxWidth(),
-//                                    horizontalArrangement = Arrangement.SpaceBetween
-//                                ) {
-//                                    Home("A", Color.White)
-////                                    Home("B", Color.White)
+////                    }
+////
+////
+////                ) { innerPadding ->
+////
+////                    Box(
+////                        modifier = Modifier
+////
+////                            .fillMaxWidth()
+////                            .size(250.dp)
+////
+////                            .background(
+////                                brush = Brush.linearGradient(
+////                                    listOf(Color.Red, Color.Black),
+////                                    start = Offset(0f, 0f),
+////                                    end = Offset(500f, 500f)
+////                                ),
+////                                shape = RoundedCornerShape(bottomStart = 30.dp, bottomEnd = 30.dp)
+////                            ),
+////
+////
+////                        contentAlignment = Alignment.Center
+////                    ) {
+////
+////                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+////
+////                            Row(
+////                                modifier = Modifier
+////                                    .padding(horizontal = 25.dp)
+////                                    .fillMaxWidth(),
+////                                horizontalArrangement = Arrangement.SpaceBetween
+////                            ) {
+////                                Home("A", Color.White)
+////                                Home("B", Color.White)
+////                                Home("A", Color.White)
+////                                Home("B", Color.White)
+////
+////
+////                            }
+////
+////
+////                            Home(text = "Z", Color.White)
+////                            Home(text = "Z", Color.White)
+////                            Home(text = "Z", Color.White)
+////                            Home(text = "Z", Color.White)
+////
+////
+////                        }
+////
+////
+////                    }
+////
+////
+////                    Box(
+////                        modifier = Modifier // Alignment ko adjust kar ke position set karen
+////
+////                            .fillMaxWidth(),
+////
+////
+////                    ) {
+////                        // Pehla Box
+////                        Box(
+////                            modifier = Modifier
+////                                .fillMaxWidth()
+////                                .size(250.dp)
+////                                .background(
+////                                    brush = Brush.linearGradient(
+////                                        listOf(Color.Red, Color.Black),
+////                                        start = Offset(0f, 0f),
+////                                        end = Offset(500f, 500f)
+////                                    ),
+////                                    shape = RoundedCornerShape(
+////                                        bottomStart = 20.dp,
+////                                        bottomEnd = 20.dp
+////                                    )
+////                                ),
+////                            contentAlignment = Alignment.Center
+////                        ) {
+////                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+////                                Row(
+////                                    modifier = Modifier
+////                                        .padding(horizontal = 25.dp)
+////                                        .fillMaxWidth(),
+////                                    horizontalArrangement = Arrangement.SpaceBetween
+////                                ) {
 ////                                    Home("A", Color.White)
-////                                    Home("B", Color.White)
-//                                }
-//                                Home(text = "Z", Color.White)
+//////                                    Home("B", Color.White)
+//////                                    Home("A", Color.White)
+//////                                    Home("B", Color.White)
+////                                }
 ////                                Home(text = "Z", Color.White)
-////                                Home(text = "Z", Color.White)
-////                                Home(text = "Z", Color.White)
-//                            }
-//                        }
-//
-//                        // Overlapping Box
-//                        Box(
-//                            modifier = Modifier
-//                                .fillMaxWidth()
-//                                .height(150.dp)
-//                                .padding(horizontal = 20.dp)
-//
-//                                // Alignment ko adjust kar ke position set karen
-//                                .offset(y = 200.dp) // Yeh offset red/black box ke neeche laane ke liye hai
-//
-//                                .background(Color(0xFFffd3ca), shape = RoundedCornerShape(15.dp)),
-//                            contentAlignment = Alignment.Center
-//                        ) {
-//                           Row(modifier = Modifier
-//                               .padding(15.dp)
-//                               .fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-//                               ToolBarIcon(icon = R.drawable.baseline_home_24)
-//                               ToolBarIcon(icon = R.drawable.baseline_view_in_ar_24)
-//                               ToolBarIcon(icon = R.drawable.baseline_notifications_24)
-//                               ToolBarIcon(icon = R.drawable.baseline_settings_24)
-//                           }
-//                        }
-//                    }
-//
-//
-//
-//
-//                }
+//////                                Home(text = "Z", Color.White)
+//////                                Home(text = "Z", Color.White)
+//////                                Home(text = "Z", Color.White)
+////                            }
+////                        }
+////
+////                        // Overlapping Box
+////                        Box(
+////                            modifier = Modifier
+////                                .fillMaxWidth()
+////                                .height(150.dp)
+////                                .padding(horizontal = 20.dp)
+////
+////                                // Alignment ko adjust kar ke position set karen
+////                                .offset(y = 200.dp) // Yeh offset red/black box ke neeche laane ke liye hai
+////
+////                                .background(Color(0xFFffd3ca), shape = RoundedCornerShape(15.dp)),
+////                            contentAlignment = Alignment.Center
+////                        ) {
+////                           Row(modifier = Modifier
+////                               .padding(15.dp)
+////                               .fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+////                               ToolBarIcon(icon = R.drawable.baseline_home_24)
+////                               ToolBarIcon(icon = R.drawable.baseline_view_in_ar_24)
+////                               ToolBarIcon(icon = R.drawable.baseline_notifications_24)
+////                               ToolBarIcon(icon = R.drawable.baseline_settings_24)
+////                           }
+////                        }
+////                    }
+////
+////
+////
+////
+////                }
+////            }
 //            }
         }
     }
@@ -287,7 +305,5 @@ fun ToolBarIcon(icon: Int){
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    LearnComposeTheme {
 
-    }
 }
